@@ -13,7 +13,7 @@ Create a [personal auth token](https://github.com/settings/tokens) with the
 following scopes:
 
 * `admin:org`
-* `admin:repo_hook`
+### * `admin:repo_hook`
 
 Define it in an environment variable:
 
@@ -26,7 +26,7 @@ Define it in an environment variable:
 ## Create a commitbit team
 
 Create a [GitHub Team](https://help.github.com/articles/organizing-members-into-teams/)
-called `Committers` (or something similar), which is the team all committers get
+called `committers` (or something similar), which is the team all committers get
 added to.
 
 Define the id of the team:
@@ -49,7 +49,9 @@ And remind yourself the secret:
 
     echo $GITHUB_WEBHOOK_SECRET
 
-Fill in the WebHook form with those values, and specify Content type `application/json`
+Fill in the WebHook form with those values, and specify Content type `application/json`.
+
+Finally, select only the *Pull request* event.
 
 ## That's it
 
@@ -59,6 +61,30 @@ specified.
 
 This is a little overkill (it would have been sufficient to look at committers in
 merge pull requests), but the current implementation seemed like the simplest one.
+
+## Welcome message
+
+When the contributor's pull request is merged, the following message will be added
+to the pull request:
+
+> Hi @contributor,
+>
+> Thanks for your contribution and welcome to the <organisation> organization's
+> <team> team. This gives you direct commit access to all repositories under
+> <org>.
+> We encourage you to create branches for new features and bug fixes, and submit
+> pull requests, optionally requesting a code review. As soon as someone from the
+> core team approves your pull request, just go ahead and merge it yourself.
+>
+> We hope that this will lower the barrier to entry so that the core teams will grow
+> so we can process issues faster. Committers who contribute regularly can be
+> compensated financially, and may also be invited to join a core team.
+>
+> We trust you will use this responsibly. Looking forward to your next pull request!
+>
+> Aslak Hellesøy
+> Cucumber creator and project lead
+>
 
 ## Credit
 

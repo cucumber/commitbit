@@ -43,6 +43,11 @@ module.exports.githubWebhookListener = (event, context, callback) => {
     return callback(new Error(errMsg));
   }
 
+  if (githubEvent !== 'XX') {
+    errMsg = '[422] X-Github-Event was "' + githubEvent + '", but expected "XX"';
+    return callback(new Error(errMsg));
+  }
+
   if (!id) {
     errMsg = '[401] No X-Github-Delivery found on request';
     return callback(new Error(errMsg));
@@ -58,23 +63,71 @@ module.exports.githubWebhookListener = (event, context, callback) => {
     token: authToken
   })
 
-  const usernames = []
+  const prEvent = event.body
+  const user = prEvent.user.login
+  const pr = prEvent.pull_request
+  const owner = pr.repo.owner.login
+  const repo = pr.repo.name
 
-  function addTeamMembership(commit, cb) {
-    const username = commit.author.username
-    if(usernames.indexOf(username) >= 0) return cb()
-    usernames.push(username)
-    github.orgs.addTeamMembership({id: teamId, username: username}, cb);
+  function createIssueReaction(cb) {
+    github.reactions.createForIssue({
+      owner: owner,
+      repo: repo,
+      number: pr.id,
+      content: ':clap:'
+    }, cb)
   }
 
-  each(event.body.commits, addTeamMembership, function(err) {
-    if (err) return callback(err)
+  function createIssueComment(cb) {
+    github.issues.createComment({
+      owner: owner,
+      repo: repo,
+      number: pr.id,
+      body: `Hi @${user},
+Thanks for your contribution and welcome to the committers team!
+You can now push directly to this repo and all other repos under the cucumber
+organization. Please read up on the general contrinuting guidelines to learn more.
 
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify(usernames),
-    };
+Cheers,
+Aslak Hellesøy
+Creator of Cucumber
+`
+    }, cb)
+  }
 
-    callback(null, response);
+  // if(pr.state == "closed" && pr.merged)
+  createIssueReaction(function (err) {
+    if(err) return callback(err)
+
+    createIssueComment(function (err) {
+      if(err) return callback(err)
+
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify(usernames),
+      }
+
+      callback(null, response)
+    })
   })
+
+  // const usernames = []
+  //
+  // function addTeamMembership(commit, cb) {
+  //   const username = commit.author.username
+  //   if(usernames.indexOf(username) >= 0) return cb()
+  //   usernames.push(username)
+  //   github.orgs.addTeamMembership({id: teamId, username: username}, cb);
+  // }
+  //
+  // each(event.body.commits, addTeamMembership, function(err) {
+  //   if (err) return callback(err)
+  //
+  //   const response = {
+  //     statusCode: 200,
+  //     body: JSON.stringify(usernames),
+  //   };
+  //
+  //   callback(null, response);
+  // })
 };
