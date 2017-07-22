@@ -62,6 +62,7 @@ module.exports.githubWebhookListener = (event, context, callback) => {
 
   function addTeamMembership(commit, cb) {
     const username = commit.author.username
+    if(usernames.indexOf(username) >= 0) return cb()
     usernames.push(username)
     github.orgs.addTeamMembership({id: teamId, username: username}, cb);
   }
