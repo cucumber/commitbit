@@ -1,4 +1,7 @@
 const crypto = require('crypto');
+const each = require('async/each');
+const GitHubApi = require('github');
+const github = new GitHubApi();
 
 function signRequestBody(key, body) {
   return `sha1=${crypto.createHmac('sha1', key).update(body, 'utf-8').digest('hex')}`;
@@ -7,6 +10,8 @@ function signRequestBody(key, body) {
 module.exports.githubWebhookListener = (event, context, callback) => {
   var errMsg; // eslint-disable-line
   const token = process.env.GITHUB_WEBHOOK_SECRET;
+  const teamId = process.env.GITHUB_TEAM_ID;
+  const authToken = process.env.GITHUB_AUTH_TOKEN;
   const headers = event.headers;
   const sig = headers['X-Hub-Signature'];
   const githubEvent = headers['X-GitHub-Event'];
@@ -15,6 +20,16 @@ module.exports.githubWebhookListener = (event, context, callback) => {
 
   if (typeof token !== 'string') {
     errMsg = '[401] must provide a \'GITHUB_WEBHOOK_SECRET\' env variable';
+    return callback(new Error(errMsg));
+  }
+
+  if (typeof teamId !== 'string') {
+    errMsg = '[401] must provide a \'GITHUB_TEAM_ID\' env variable';
+    return callback(new Error(errMsg));
+  }
+
+  if (typeof authToken !== 'string') {
+    errMsg = '[401] must provide a \'GITHUB_AUTH_TOKEN\' env variable';
     return callback(new Error(errMsg));
   }
 
@@ -38,22 +53,27 @@ module.exports.githubWebhookListener = (event, context, callback) => {
     return callback(new Error(errMsg));
   }
 
-  /* eslint-disable */
-  console.log('---------------------------------');
-  console.log(`Github-Event: "${githubEvent}" with action: "${event.body.action}"`);
-  console.log('---------------------------------');
-  console.log('Payload', event.body);
-  /* eslint-enable */
+  github.authenticate({
+    type: "token",
+    token: authToken
+  })
 
-  // Do custom stuff here with github event data
-  // For more on events see https://developer.github.com/v3/activity/events/types/
+  const usernames = []
 
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify({
-      input: event,
-    }),
-  };
+  function addTeamMembership(commit, cb) {
+    const username = commit.author.username
+    usernames.push(username)
+    github.orgs.addTeamMembership({id: teamId, username: username}, cb);
+  }
 
-  return callback(null, response);
+  each(event.body.commits, addTeamMembership, function(err) {
+    if (err) return callback(err)
+
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify(usernames),
+    };
+
+    callback(null, response);
+  })
 };

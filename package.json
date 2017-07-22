@@ -1,0 +1,10 @@
+{
+  "name": "commitbit",
+  "version": "1.0.0",
+  "description": "Grant commit bit when a PR is merged",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.5.0",
+    "github": "^9.2.0"
+  }
+}

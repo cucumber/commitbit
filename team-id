@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+# Finds team ID
+#
+# Usage: ./team-id org teamname
+#
+
+org=$1
+team=$2
+
+set -euf
+  curl --silent --fail \
+  -H "Authorization: token ${GITHUB_AUTH_TOKEN}" \
+  "https://api.github.com/orgs/${org}/teams" |
+  jq -c ".[] | select(.name == \"${team}\") | .id"
