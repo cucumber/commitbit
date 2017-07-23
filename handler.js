@@ -86,7 +86,7 @@ module.exports.githubWebhookListener = (event, context, callback) => {
           if(err) return callback(new Error("[500] " + err.message))
           if(isMember) return callback(null, {
             statusCode: 200,
-            body: `${user} is already a member`
+            body: `${user} is already a member. Nothing to do.`
           })
 
           github.orgs.addTeamMembership({id: teamId, username: user}, function (err) {
@@ -97,7 +97,7 @@ module.exports.githubWebhookListener = (event, context, callback) => {
 
               callback(null, {
                 statusCode: 200,
-                body: `Commented on ${pr.url}`,
+                body: `Added ${user} to team and commented on ${pr.url}`,
               })
             })
           })
@@ -106,7 +106,7 @@ module.exports.githubWebhookListener = (event, context, callback) => {
     } else {
       callback(null, {
         statusCode: 200,
-        body: `Nothing to do`,
+        body: `Pull request updated, but not merged. Nothing to do`,
       })
     }
   } catch(err) {
