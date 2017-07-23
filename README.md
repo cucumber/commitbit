@@ -96,6 +96,25 @@ be added to the committers team, which will give them write access to repositori
 Contributors will also receive a welcome message (in the pull request) when they get
 added.
 
+## Why are there no tests?
+
+Testing this code in a real environment (against GitHub) would require creating
+real pull requests, merging them and inspecting whether people were added to a team,
+and whether the pull request received a comment. That's a pretty complex test harness
+to set up.
+
+Another testing strategy would be to decouple the domain logic from GitHub.
+That would give us confidence that the domain logic (if statements) are working,
+but it wouldn't give us much confidence that the whole system works.
+
+In the end, it seemed that manual testing was sufficient for this kind of application.
+It's easy to (re)invoke webhooks from GitHub's admin panel and inspect results -
+a lot easier than it would have been to decouple this code and write automated tests
+for it.
+
+For a bigger application with more logic it would make sense, but for this application,
+manual testing seemed like the right thing to do.
+
 ## Credit
 
 The commitbit microservice is based on [Serverless Github webhook listener](https://github.com/serverless/examples/tree/master/aws-node-github-webhook-listener)
