@@ -1,13 +1,15 @@
-# Commitbit
+# Commit bit
 
 ![commitbit](commitbit.png)
 
-Commitbit is a microservice that grants commit access to every user who has a
-pull request merged on GitHub. This removes manual labour on GitHub repos with
-a liberal commit bit policy.
+Commit bit is a micro service that hands out a commit bit to contributors
+after their first GitHub pull request has been merged.
 
-The rest of this document explains how to install, configure and use the commitbit
-service.
+This liberal policy reduces the workload of the existing team and lowers the barrier
+of entry for new team members.
+
+The rest of this document explains how to configure and install the commit bit
+micro service.
 
 ## Install dependencies
 
@@ -27,7 +29,7 @@ Define the token in an environment variable:
 
     export GITHUB_AUTH_TOKEN=REPLACE-WITH-YOUR-AUTH-TOKEN-HERE
 
-## Define a secret for the webhook
+## Define a secret for the WebHook
 
     export GITHUB_WEBHOOK_SECRET=$(openssl rand -base64 32)
 
@@ -40,6 +42,10 @@ be added to.
 Define the id of the team:
 
     export GITHUB_TEAM_ID=$(./team-id REPLACE-WITH-YOUR-ORG-NAME-HERE REPLACE-WITH-YOUR-TEAM-NAME-HERE)
+
+## Grant team members write access on select repos
+
+Add all repositories you want to give commit bit for to the team. Grant at least write access.
 
 ## Create a welcome message template
 
@@ -84,11 +90,12 @@ Finally, select only the *Pull request* event.
 
 ## That's it
 
-Every push to any of the repos in your GitHub organisation will now invoke the
-commitbit microservice.
-
 Whenever a pull request is merged, the user who submitted the pull request will
-be added to a team, and will receive a welcome message in the pull request.
+be added to the committers team, which will give them write access to repositories.
+
+Contributors will also receive a welcome message (in the pull request) when they get
+added.
+
 ## Credit
 
 The commitbit microservice is based on [Serverless Github webhook listener](https://github.com/serverless/examples/tree/master/aws-node-github-webhook-listener)
