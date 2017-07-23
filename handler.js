@@ -83,7 +83,7 @@ module.exports.githubWebhookListener = (event, context, callback) => {
         })
 
         github.orgs.getTeamMembership({id: teamId, username: user}, function (err, isMember) {
-          if(err) return callback(new Error("[500] " + err.message))
+          // if(err) return callback(new Error("[500] " + err.message))
           if(isMember) return callback(null, {
             statusCode: 200,
             body: `${user} is already a member. Nothing to do.`
