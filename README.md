@@ -9,6 +9,12 @@ a liberal commit bit policy.
 The rest of this document explains how to install, configure and use the commitbit
 service.
 
+## Install dependencies
+
+Install Node.js. Then install library dependencies:
+
+    npm install
+
 ## Create a personal auth token
 
 Create a [personal auth token](https://github.com/settings/tokens) with the
@@ -83,7 +89,6 @@ commitbit microservice.
 
 Whenever a pull request is merged, the user who submitted the pull request will
 be added to a team, and will receive a welcome message in the pull request.
-
 ## Credit
 
 The commitbit microservice is based on [Serverless Github webhook listener](https://github.com/serverless/examples/tree/master/aws-node-github-webhook-listener)
