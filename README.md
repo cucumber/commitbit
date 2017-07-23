@@ -12,8 +12,8 @@ The rest of this document explains how to install, configure and use commitbit.
 Create a [personal auth token](https://github.com/settings/tokens) with the
 following scopes:
 
-* `admin:org`
-### * `admin:repo_hook`
+* `repo` - to comment on the PR
+* `admin:org` - to add the contributor to the team
 
 Define it in an environment variable:
 
@@ -36,6 +36,10 @@ Define the id of the team:
 ## Deployment
 
     ./deploy
+
+After the first deploy you can redeploy faster:
+
+    serverless deploy function --function githubWebhookListener
 
 ## Install WebHook
 
