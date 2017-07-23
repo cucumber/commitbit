@@ -1,5 +1,7 @@
 # Commitbit
 
+![commitbit](commitbit.png)
+
 Commitbit is a microservice that grants commit access to every user who has a
 pull request merged on GitHub.
 
