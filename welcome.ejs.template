@@ -1,0 +1,13 @@
+Hi @<%= user %>,
+
+Thanks for your contribution and welcome to the committers team!
+
+You can now push directly to this repo and all other repos under the cucumber
+organization.
+
+Please continue to use branches and pull requests. When someone on the core team
+approves a pull request, you're welcome to merge it yourself.
+
+Cheers,
+Aslak Hellesøy
+Creator of Cucumber
