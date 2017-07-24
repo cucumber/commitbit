@@ -1,13 +1,15 @@
 Hi @<%= user %>,
 
-Thanks for your contribution and welcome to the committers team!
+Thanks for your making your first contribution to Cucumber, and welcome to the Cucumber committers team! You can now push directly to this repo and all other repos under the cucumber organization! 🍾
 
-You can now push directly to this repo and all other repos under the cucumber
-organization.
+In return for we ask you to:
 
-Please continue to use branches and pull requests. When someone on the core team
-approves a pull request, you're welcome to merge it yourself.
+* ✅ Please continue to use branches and pull requests. When someone on the core team approves a pull request (yours or someone else's), you're welcome to merge it yourself.
+* 💚 Commit to setting a good example by following and upholding our [code of conduct](https://cucumber.io/conduct) in your interactions with other collaborators and users.
+* 💬 Join the [community Slack channel](http://cucumber.io/support#slack) to meet the rest of the team and make yourself at home.
+* ℹ️ Don't feel obliged to help, just do what you can if you have the time and the energy.
+* 🙋 Ask if you need anything. We're looking for feedback about how to make the project more welcoming, so please tell us!
 
-Cheers,
+On behalf of the Cucumber core team,
 Aslak Hellesøy
 Creator of Cucumber
