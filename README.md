@@ -64,8 +64,8 @@ You need to define two environment variables:
     export AWS_ACCESS_KEY_ID=REPLACE-WITH-YOUR-AWS-ACCESS-KEY-ID
     export AWS_SECRET_ACCESS_KEY=REPLACE-WITH-YOUR-AWS-SECRET-ACCESS-KEY
 
-*The Cucumber team keeps these values in [1Password](https://1password.com/). Contact one
-of the contributors if you want to deploy a new version*
+*The Cucumber team keeps these values in [1Password](https://1password.com/). Create a new GitHub issue if you want 
+access to these tokens in 1Password so you can deploy a new version*.
 
 Now, deploy the service.
 
