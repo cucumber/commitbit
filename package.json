@@ -4,7 +4,7 @@
   "description": "Grant commit bit when a PR is merged",
   "license": "MIT",
   "dependencies": {
-    "ejs": "^2.5.6",
+    "ejs": "^3.1.6",
     "github": "^9.2.0"
   }
 }
